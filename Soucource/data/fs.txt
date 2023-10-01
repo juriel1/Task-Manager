@@ -1,6 +1,2 @@
-new$New$1
-progress$Progress$2
-wait$Wait$3
-problems$Problems$4
-finichs$Finish$5
-tet$New$6
+asddfg$New$1
+sdf$New$2

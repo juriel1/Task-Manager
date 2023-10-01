@@ -31,7 +31,7 @@ class App(ft.UserControl):
                                 ft.FloatingActionButton(
                                 icon=ft.icons.SAVE, on_click=lambda _:self.datamanager.save_data()),
                                 ft.FloatingActionButton(
-                                icon=ft.icons.CHARGING_STATION_ROUNDED, on_click=self.add_task)
+                                icon=ft.icons.IMPORT_EXPORT_OUTLINED, on_click=self.load_tasks)
                             ]
                         ),
                         self.new_task,
@@ -49,15 +49,31 @@ class App(ft.UserControl):
                 ),
             ],
         )
-
+    
     async def add_task(self, e):
         if self.new_task.value:
-            task = Task(self.new_task.value, self.task_status_change, self.task_delete,self.task_change)
+            task = Task(self.new_task.value,"New", self.task_status_change, self.task_delete,self.task_change)
             self.datamanager.set_new_task(self.new_task.value,"New")
             self.tasks.controls.append(task)
             self.new_task.value = ""
             await self.new_task.focus_async()
             await self.update_async()
+
+    async def add_task_loader(self,data:str):
+        tuple_task = self.datamanager.pull_apart(data)
+        print("load")
+        print(tuple_task[0])
+        print(tuple_task[1])
+        task = Task(tuple_task[0],tuple_task[1], self.task_status_change, self.task_delete,self.task_change)
+        self.datamanager.set_new_task(tuple_task[0],tuple_task[1])
+        self.tasks.controls.append(task)
+        await self.update_async()
+
+    async def load_tasks(self,e):
+        task_loader = self.datamanager.load_data()
+        for i in task_loader:
+            await self.add_task_loader(str(i))
+        await self.update_async()
 
     async def task_status_change(self, task:Task):
         self.datamanager.set_task(task.content.value,task.status_)

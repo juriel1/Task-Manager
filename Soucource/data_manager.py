@@ -26,4 +26,13 @@ class Data_manager():
                 print("Task: {} -- Status: {}".format(i,self.task_dict[i]))
         print("write file save")
 
-    #def load():
+    def load_data(self):
+        with open('Soucource/data/fs.txt','r') as f:
+            task_loader = f.readlines()
+        task_loader.sort(key=lambda e:int(e[-2]))
+        return task_loader
+    
+    def pull_apart(self,data:str):
+        content = data[:data.find('$')]
+        status = data[data.find('$')+1:-3]
+        return (content,status)

@@ -1,9 +1,9 @@
 import flet as ft
 
 class Task(ft.UserControl):
-    def __init__(self, content, task_status_change, task_delete, task_change):
+    def __init__(self, content,status, task_status_change, task_delete, task_change):
         super().__init__()
-        self.status_ = "New"
+        self.status_ = status
         self.content = content
         self.task_status_change = task_status_change
         self.task_delete = task_delete
