@@ -1,12 +1,13 @@
 import flet as ft
 
 class Task(ft.UserControl):
-    def __init__(self, content, task_status_change, task_delete):
+    def __init__(self, content, task_status_change, task_delete, task_change):
         super().__init__()
         self.status_ = "New"
         self.content = content
         self.task_status_change = task_status_change
         self.task_delete = task_delete
+        self.task_change = task_change
 
     def build(self):
         self.content = ft.Text(self.content)
@@ -73,6 +74,7 @@ class Task(ft.UserControl):
         await self.update_async()
 
     async def save_edit(self, e):
+        await self.change_task(self.content.value,self.edit_content.value)
         self.content.value = self.edit_content.value
         self.display_view.visible = True
         self.edit_view.visible = False
@@ -84,3 +86,6 @@ class Task(ft.UserControl):
 
     async def delete_task(self, e):
         await self.task_delete(self)
+
+    async def change_task(self,otask:str,ntask:str):
+        await self.task_change(otask,ntask)
